@@ -1,9 +1,13 @@
 package pageObjects;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CheckoutPage extends BasePage{
 
@@ -13,8 +17,11 @@ public class CheckoutPage extends BasePage{
 		super(driver);
 	}	
 	
+	@FindBy(xpath="//input[@value='new']")
+	WebElement btnclicknewaddress;
+	
 	@FindBy(xpath="//input[@id='input-payment-firstname']")
-	WebElement txtfirstName;
+	WebElement firstName1;
 	
 	@FindBy(xpath="//input[@id='input-payment-lastname']")
 	WebElement txtlastName;
@@ -74,10 +81,24 @@ public class CheckoutPage extends BasePage{
 	@FindBy(xpath="//*[@id='content']/h1")
 	WebElement lblOrderConMsg;
 	
+	public void clicknewaddress() 
+	{
+		btnclicknewaddress.click();
+	}
 	
 
-	public void setfirstName(String firstName) {
-		txtfirstName.sendKeys(firstName);
+	public void setfirstName(String firstName) throws InterruptedException 
+	{
+		WebDriverWait wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(10));
+
+		try {
+		    WebElement firstName1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='input-payment-firstname']")));
+		    firstName1.sendKeys("nashma");
+		} catch (NoSuchElementException e) {
+		    System.out.println("Element not found. Verify the XPath or check for iFrames.");
+		}
+
+		
 	}
 
 
@@ -144,6 +165,7 @@ public class CheckoutPage extends BasePage{
 	
 	public void clickOnContinueAfterPaymentMethod()
 	{
+		;
 		btncontinuePaymentMethod.click();
 	}
 	

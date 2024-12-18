@@ -49,6 +49,9 @@
 		    <version>7.17.0</version>
 		    <scope>test</scope>
 		</dependency>
+		
+		
+
 
   <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java  -->    
     <dependency>
@@ -103,7 +106,13 @@
 		    <version>3.12.0</version>
 		</dependency>
 
-	
+	<!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
+<dependency>
+    <groupId>com.aventstack</groupId>
+    <artifactId>extentreports</artifactId>
+    <version>5.1.2</version>
+</dependency>
+
 	<!-- https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber7-adapter/1.14.0 -->
 	<dependency>
 	    <groupId>tech.grasshopper</groupId>

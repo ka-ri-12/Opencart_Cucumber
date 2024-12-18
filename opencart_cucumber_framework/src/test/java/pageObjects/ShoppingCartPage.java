@@ -1,8 +1,13 @@
 package pageObjects;
 
+import java.time.Duration;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ShoppingCartPage extends BasePage
 	{
@@ -11,33 +16,67 @@ public class ShoppingCartPage extends BasePage
 		super(driver);
 	}
 	
-	//@FindBy(xpath="//button[@aria-expanded='false']")
-	@FindBy(xpath="//div[@id='cart']")
+	
+	@FindBy(xpath="//button[@type='button']//i[@class='fa fa-shopping-cart']")
 	WebElement btnItems;
 	
-	@FindBy(xpath="//strong[normalize-space()='View Cart']")
+	@FindBy(xpath="//a//strong//i[@class='fa fa-shopping-cart'][1]")
 	WebElement lnkViewCart;
 	
-	@FindBy(xpath="//*[@id='content']/div[2]/div/table//strong[text()='Total:']//following::td")
-	WebElement lblTotalPrice;  //$246.40
+	@FindBy(xpath="//tbody//tr//td[6]")
+     WebElement lblTotalPrice;  
+	
+	
+	@FindBy(xpath="//div[@class='input-group btn-block']//input[@type='text']")
+	WebElement quantityInput;
+	
+	@FindBy(xpath="//i[@class='fa fa-refresh']" )
+	WebElement updateButton;
+	
+	
+
 	
 	@FindBy(xpath="//a[text()='Checkout']")
 	WebElement btnCheckout;
 	
-	public void clickItemsToNavigateToCart()
+	public void clickItemsToNavigateToCart() throws InterruptedException
 	{
+		Thread.sleep(2000);
 		btnItems.click();
 	}
 	
-	public void clickViewCart()
+	public void clickViewCart() throws InterruptedException
 	{
-		lnkViewCart.click();
+	//	Thread.sleep(3000);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		WebElement cartIcon = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a//strong//i[@class='fa fa-shopping-cart'][1]")));
+		cartIcon.click();
+
+		//lnkViewCart.click();
 	}
 	
 	public String getTotalPrice()
 	{
 		return lblTotalPrice.getText();
 	}
+	
+	public int getQuantity()
+	{
+        return Integer.parseInt(quantityInput.getAttribute("value"));
+    }
+	
+	public void updateQuantity(int newQuantity) {
+        quantityInput.clear();
+        quantityInput.sendKeys(String.valueOf(newQuantity));
+        updateButton.click();
+    }
+
+    public void decreaseQuantity(int decreaseBy) {
+        int currentQuantity = getQuantity();
+        int updatedQuantity = Math.max(1, currentQuantity - decreaseBy); // Ensure quantity >= 1
+        updateQuantity(updatedQuantity);
+    }
+	
 	
 	public void clickOnCheckout()
 	{
